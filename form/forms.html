@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Bootstrap Forms</title>
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<form class="form-horizontal" action="#" method="get">
+			<div class="form-group">
+				<label for="username" class="col-sm-2 control-label">Username</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="confirm" class="col-sm-2 control-label">Confirm Username</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="confirm" name="confirm" placeholder="Enter Username Again" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-8">
+					<input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="keyword" class="col-sm-2 control-label">KeyWord</label>
+				<div class="col-sm-8">
+					<input type="search" class="form-control" id="keyword" name="keyword" placeholder="Enter Key Word" list="keywordList" autofocus>		
+				</div>	
+			</div>
+			<div class="form-group">
+				<label for="age" class="col-sm-2 control-label">Age</label>
+				<div class="col-sm-7">
+					<input type="range" class="form-control" id="age" name="age" min="18" max="60" value="18" onchange="ageDisplay.value=value">
+				</div>
+				<div class="col-sm-1">
+					<output id="ageDisplay">18</output>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="creditcardnumber" class="col-sm-2 control-label">Credit Card Number</label>
+				<div class="col-sm-8">
+					<input type="number" class="form-control" id="creditcardnumber" name="creditcardnumber" pattern="[0-9]{16}" title="A credit card number is 16 digits with no spaces or dashed">		
+				</div>	
+			</div>
+			<div class="form-group">
+				<label for="date" class="col-sm-2 control-label">Datetime</label>
+				<div class="col-sm-8">
+					<input type="date" class="form-control" id="date" name="date" placeholder="Select Date">				
+				</div>
+			</div>
+            <div class="form-group">
+                <label for="photo" class="col-sm-2 control-label">Photo</label>
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" id="photo" name="photo" multiple>
+                </div>
+            </div>
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" id="description" name="description" rows="3" maxlength="30"></textarea>			
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-2">
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+				<div class="col-sm-4">
+					<button type="submit" class="btn btn-default" formnovalidate>Submit Without Validate</button>
+				</div>
+			</div>
+		</form>
+		
+		<datalist id="keywordList">
+			<option value="Java" label="Java">
+			<option value="Javascript" label="Javascript">
+			<option value="HTML5" label="HTML5">
+		</datalist>
+		
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+		$(function() {
+			$("#photo").change(function() {
+				var files = this.files;
+                [].forEach.call(files, function(file) {
+                    console.debug(file.type.match(/image.*/));
+                });
+			});
+			$("#username, #confirm").on("change", function() {
+				var pass1 = $("#username")[0],
+					 pass2 = $("#confirm")[0];
+				if (pass1.value != pass2.value) {
+					pass1.setCustomValidity("Your password do not match.");
+				} else {
+					pass1.setCustomValidity("");		
+				}
+			});
+			$("form").submit(function() {
+				console.debug($("#creditcardnumber")[0].validity);	
+			});	
+		});
+		</script>
+	</body>
+</html>

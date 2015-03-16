@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Running Clob</title>
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/drag.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<header>
+            <h2 class="text-center">Race Organization</h2>
+		</header>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p class="lead">Drag members to either the Racers or Volunteers list</p>
+                        <ul id="members">
+                            <li id="person-1" draggable="true" data-age="38">Brain Albers</li>
+                            <li id="person-2" draggable="true" data-age="25">Frank Salim</li>
+                            <li id="person-3" draggable="true" data-age="47">Jennifer Clark</li>
+                            <li id="person-4" draggable="true" data-age="18">John Kemble</li>
+                            <li id="person-5" draggable="true" data-age="20">Lorraine Gaunce</li>
+
+                            <li id="person-6" draggable="true" data-age="30">Mark Wang</li>
+                            <li id="person-7" draggable="true" data-age="41">Morgan Stephen</li>
+                            <li id="person-8" draggable="true" data-age="39">Peter Lubbers</li>
+                            <li id="person-9" draggable="true" data-age="33">Vanessa Combs</li>
+                            <li id="person-a" draggable="true" data-age="54">Vivian Lopez</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 dropList">
+                        <fieldset id="racersField">
+                            <legend>Racers (Age)</legend>
+                            <ul id="racers"></ul>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-6 dropList">
+                        <fieldset id="volunteersField">
+                            <legend>Volunteers (Name)</legend>
+                            <ul id="volunteers"></ul>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="js/runningClob-v2.js"></script>
+	</body>
+</html>

@@ -1,0 +1,4 @@
+#members li {cursor: move}
+#racers,#volunteers,#dragtarget {height: 400px}
+.highlighted {background-color: yellow}
+.validtarget {background-color: lightblue}
