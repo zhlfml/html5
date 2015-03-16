@@ -1,5 +1,6 @@
 var uploadFile = function(url, file) {
-    var $element = $("<div />");
+    var $element = $("<div />"),
+        $progress = $("#progress");
     $element.text(file.name);
     $("#target").append($element);
 
@@ -9,11 +10,12 @@ var uploadFile = function(url, file) {
     var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", function(e) {
         var per = Math.round((e.loaded / e.total) * 100);
-        $("#progress").val(per);
+        $progress.val(per);
     });
     xhr.upload.addEventListener("load", function() {
         $element.text("Complete");
         $element.delay(1000).fadeOut();
+        $progress.val(0);
     });
 
     xhr.open("POST", url, true);

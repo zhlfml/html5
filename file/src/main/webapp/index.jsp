@@ -20,6 +20,17 @@
         <div class="row">
             <div class="col-xs-12">
                 <div id="target"></div>
+            </div>
+            <div class="col-xs-12">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="file">File</label>
+                        <input type="file" name="file" id="file" class="form-control" multiple>
+                    </div>
+                    <button type="button" id="uploadButton" class="btn btn-default">Upload</button>
+                </form>
+            </div>
+            <div class="col-xs-12">
                 <progress id="progress" class="form-control" value="0" max="100"></progress>
             </div>
         </div>
@@ -58,13 +69,19 @@
                     e.stopPropagation();
 
                     e = e.originalEvent;
-                    var $this = $(this);
                     var files = e.dataTransfer.files;
-                    $this.empty();
                     [].forEach.call(files, function(file) {
                         uploadFile("<%=request.getContextPath() %>/fileupload", file);
                     })
                 });
+
+        $("#uploadButton").click(function() {
+            var $file = $("#file");
+            var files = $file[0].files;
+            [].forEach.call(files, function(file) {
+                uploadFile("<%=request.getContextPath() %>/fileupload", file);
+            })
+        });
     });
 </script>
 </body>
