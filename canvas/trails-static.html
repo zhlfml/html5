@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Trails - Canvas</title>
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<canvas id="logo" height="200" width="200" style="border: 1px solid"></canvas>
+
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var logo = document.getElementById("logo");
+                var context = logo.getContext("2d");
+
+                context.save();
+                context.translate(130, 200);
+
+
+                createCanopyPath(context);
+
+                context.stroke();
+                context.restore();
+
+                context.fillStyle = "#339900";
+                context.fill();
+
+                // 设置样式
+                context.lineWidth = 4;
+                context.lineJoin = "round";
+                context.strokeStyle = "#663300";
+                context.stroke();
+
+                function createCanopyPath(context) {
+                    context.beginPath();
+                    // 绘制树冠
+                    context.moveTo(-25, -50); // 起点
+                    context.lineTo(-10, -80);
+                    context.lineTo(-20, -80);
+                    context.lineTo(-5, -110);
+                    context.lineTo(-15, -110);
+
+                    // 树的顶点
+                    context.lineTo(0, -140);
+
+                    context.lineTo(15, -110);
+                    context.lineTo(5, -110);
+                    context.lineTo(20, -80);
+                    context.lineTo(10, -80);
+                    context.lineTo(25, -50);
+
+                    // 连接起点，闭合路径
+                    context.closePath(); // 在这里相当于context.lineTo(-25, -50);
+
+                    // 画树干
+                    context.fillStyle = "#663300";
+                    context.fillRect(-5, -50, 10, 50);
+                }
+            });
+        </script>
+	</body>
+</html>
