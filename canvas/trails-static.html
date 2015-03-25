@@ -10,7 +10,7 @@
 	</head>
 
 	<body>
-		<canvas id="logo" height="200" width="200" style="border: 1px solid"></canvas>
+		<canvas id="logo" width="400" height="600" style="border: 1px solid"></canvas>
 
 		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -19,23 +19,29 @@
                 var logo = document.getElementById("logo");
                 var context = logo.getContext("2d");
 
+                // 第一颗树
                 context.save();
                 context.translate(130, 200);
-
-
-                createCanopyPath(context);
-
-                context.stroke();
+                drawTree(context);
                 context.restore();
 
-                context.fillStyle = "#339900";
-                context.fill();
+                // 第二颗树
+                context.save();
+                context.translate(260, 500);
+                // 宽和高分别放大两倍
+                context.scale(2, 2);
+                drawTree(context);
+                context.restore();
 
-                // 设置样式
-                context.lineWidth = 4;
-                context.lineJoin = "round";
-                context.strokeStyle = "#663300";
-                context.stroke();
+                var gravel = new Image();
+                gravel.src = "gravel.jpg";
+                gravel.onload = function() {
+                    // 保存canvas的状态并绘制路径
+                    context.save();
+                    context.translate(-10, 350);
+                    drawRoad(context);
+                    context.restore();
+                }
 
                 function createCanopyPath(context) {
                     context.beginPath();
@@ -57,10 +63,52 @@
 
                     // 连接起点，闭合路径
                     context.closePath(); // 在这里相当于context.lineTo(-25, -50);
+                }
 
+                function drawTree(context) {
                     // 画树干
-                    context.fillStyle = "#663300";
+                    // 使用渐变
+                    var trunkGradient = context.createLinearGradient(-5, -50, 10, -50);
+                    trunkGradient.addColorStop(0, "#663300");
+                    trunkGradient.addColorStop(0.4, "#996600");
+                    trunkGradient.addColorStop(1, "#552200");
+                    // 使用渐变色填充树干
+                    context.fillStyle = trunkGradient;
                     context.fillRect(-5, -50, 10, 50);
+
+                    var canopyGradient = context.createLinearGradient(0, 0, 0, 50);
+                    canopyGradient.addColorStop(0, "rgba(0,0,0,0.5)");
+                    canopyGradient.addColorStop(0.2, "rgba(0,0,0,0.0)");
+                    // 在树干上填充投影渐变
+                    context.fillStyle = canopyGradient;
+                    context.fillRect(-5, -50, 10, 50);
+
+                    // 画树荫
+                    createCanopyPath(context);
+
+                    // 设置样式
+                    context.lineWidth = 4;
+                    context.lineJoin = "round";
+                    context.strokeStyle = "#663300";
+                    context.stroke();
+
+                    // 填充所有闭合路径
+                    context.fillStyle = "green";
+                    context.fill();
+                }
+
+                function drawRoad(context) {
+                    context.beginPath();
+                    // 第一条曲线向右上方弯曲
+                    context.moveTo(0, 0);
+                    context.quadraticCurveTo(170, -50, 260, -190);
+                    // 第二条曲线向右下方弯曲
+                    context.quadraticCurveTo(310, -250, 410, -250);
+
+                    // 使用棕色的粗线条来绘制路径
+                    context.lineWidth = 20;
+                    context.strokeStyle = context.createPattern(gravel, "repeat");
+                    context.stroke();
                 }
             });
         </script>
