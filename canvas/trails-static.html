@@ -19,9 +19,13 @@
                 var logo = document.getElementById("logo");
                 var context = logo.getContext("2d");
 
+                context.save();
+                writeTitle(context);
+                context.restore();
+
                 // 第一颗树
                 context.save();
-                context.translate(130, 200);
+                context.translate(130, 250);
                 drawTree(context);
                 context.restore();
 
@@ -66,6 +70,15 @@
                 }
 
                 function drawTree(context) {
+                    // 画树影
+                    context.save();
+                    context.transform(1, 0, -0.5, 1, 0, 0);
+                    context.scale(1, 0.6);
+                    context.fillStyle = "rgba(0, 0, 0 , 0.2)";
+                    context.fillRect(-5, -50, 10, 50);
+                    createCanopyPath(context);
+                    context.fill();
+                    context.restore();
                     // 画树干
                     // 使用渐变
                     var trunkGradient = context.createLinearGradient(-5, -50, 10, -50);
@@ -109,6 +122,19 @@
                     context.lineWidth = 20;
                     context.strokeStyle = context.createPattern(gravel, "repeat");
                     context.stroke();
+                }
+
+                function writeTitle(context) {
+                    // 设置字体
+                    context.font = "60px impact";
+                    context.fillStyle = "#996600";
+                    context.textAlign = "center";
+                    // 设置阴影效果
+                    context.shadowColor = "rgba(0, 0, 0, 0.2)";
+                    context.shadowOffsetX = 15;
+                    context.shadowOffsetY = -10;
+                    context.shadowBlur = 2;
+                    context.fillText("Happy Trails!", 200, 50, 400);
                 }
             });
         </script>
