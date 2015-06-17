@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Portal [http://portal.example.com:81]</title>
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            iframe {height: 400px; width: 800px}
+        </style>
+	</head>
+
+	<body>
+		<h1>Cross-Origin Portal</h1>
+        <p><b>Origin</b>: http://portal.example.com:81</p>
+        Status <input type="text" id="statusText" value="Online">
+        <button id="sendButton">Change Status</button>
+        <p>This uses postMessage to send a status update to the widget iframe contained in the portal page.</p>
+
+        <iframe id="widget" src="http://chat.example.net:81/postMessageWidget.html"></iframe>
+
+        <p>
+            <button id="stopButton">Stop Blinking Title</button>
+        </p>
+
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script>
+            var defaultTitle = "Portal [http://portal.example.com:81]";
+            var notificationTimer = null;
+
+            var trustedOrigin = "http://chat.example.net:81";
+
+            function messageHandler(e) {
+                if (e.origin == trustedOrigin) {
+                    notify(e.data);
+                }
+            }
+
+            function sendString(s) {
+                document.getElementById("widget").contentWindow.postMessage(s, trustedOrigin);
+            }
+
+            function notify(message) {
+                stopBlinking();
+                blinkTitle(message, defaultTitle);
+            }
+
+            function stopBlinking() {
+                if (notificationTimer) {
+                    clearTimeout(notificationTimer);
+                }
+                document.title = defaultTitle;
+            }
+
+            function blinkTitle(m1, m2) {
+                document.title = m1;
+                notificationTimer = setTimeout(blinkTitle, 1000, m2,m1);
+            }
+
+            function sendStatus() {
+                var statusText = document.getElementById("statusText").value;
+                sendString(statusText);
+            }
+
+            function loadDemo() {
+                document.getElementById("sendButton").addEventListener("click", sendStatus, true);
+                document.getElementById("stopButton").addEventListener("click", stopBlinking, true);
+                sendStatus();
+            }
+
+            window.addEventListener("load", loadDemo, true);
+            window.addEventListener("message", messageHandler, true);
+        </script>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Widget</title>
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<h1>Widget iframe</h1>
+        <p><b>Origin</b>: http://chat.example.net:81</p>
+        Status <input type="text" id="statusText" value="Online">
+        <p>Status set to: <strong id="status"></strong> by containing portal.</p>
+
+        <div>
+            <input type="text" id="messageText" value="Widget notification.">
+            <button id="actionButton">Send Notification</button>
+        </div>
+
+        <p>
+            This will ask the portal to notify the user. The portal does this by flashing the title.
+            If the message comes from an origin other than http://chat.example.net:81, the portal page will ignore it.
+        </p>
+
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script>
+            var trustedOrigin = "http://portal.example.com:81";
+
+            function messageHandler(e) {
+                if (e.origin == trustedOrigin) {
+                    notify(e.data);
+                }
+            }
+
+            function sendString(s) {
+                window.top.postMessage(s, trustedOrigin);0
+            }
+
+            function notify(message) {
+                document.getElementById("status").textContent = message;
+            }
+
+            function sendStatus() {
+                var messageText = document.getElementById("messageText").value;
+                sendString(messageText);
+            }
+
+            function loadDemo() {
+                document.getElementById("actionButton").addEventListener("click", sendStatus, true);
+                sendStatus();
+            }
+
+            window.addEventListener("load", loadDemo, true);
+            window.addEventListener("message", messageHandler, true);
+        </script>
+	</body>
+</html>
