@@ -1,8 +1,11 @@
 *~
 .*
 *.iml
+rebel.xml
+
 target/
 build/
 out/
+upload/
 
 !.gitignore

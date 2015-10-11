@@ -21,6 +21,8 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setSizeMax(173158000L); // 设置总共请求大小限制
+        upload.setFileSizeMax(173158000L); // 设置单个文件大小限制
         List<FileItem> items = null;
         try {
             items = upload.parseRequest(req);
