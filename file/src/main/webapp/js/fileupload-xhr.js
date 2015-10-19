@@ -1,4 +1,4 @@
-var uploadFile = function(url, file) {
+var uploadFile = function(url, file, callback) {
     var $element = $("<div />"),
         $progress = $("#progress");
     $element.text(file.name);
@@ -17,8 +17,20 @@ var uploadFile = function(url, file) {
         $element.delay(1000).fadeOut();
         $progress.val(0);
     });
+    xhr.addEventListener("readystatechange", function() {
+        if (xhr.readyState == 4) {
+            if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+				if (xhr.responseText) {
+					var responseJson = JSON.parse(xhr.responseText);
+					if (callback && typeof callback === "function") {
+						callback.call(null, responseJson);
+					}
+				}
+            }
+        }
+    })
 
     xhr.open("POST", url, true);
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); // seems not necessary
+    //xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); // seems not necessary, cause error under php server
     xhr.send(formData);
 };
